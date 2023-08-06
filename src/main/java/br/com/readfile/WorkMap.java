@@ -3,9 +3,9 @@ package br.com.readfile;
 import java.util.HashMap;
 import java.util.Map;
 
-public class WorkMap {
+public final class WorkMap {
 
-  private Map<String, String> workMap = new HashMap<>();
+  private final Map<String, String> workMap = new HashMap<>();
 
   public void put(String headerName, String attributeName) {
     workMap.put(headerName, attributeName);
@@ -20,7 +20,6 @@ public class WorkMap {
   }
 
   public String getFieldName(String headerName) {
-    String field = workMap.get(headerName);
-    return field;
+    return workMap.get(headerName);
   }
 }

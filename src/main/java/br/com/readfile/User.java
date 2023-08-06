@@ -1,10 +1,8 @@
 package br.com.readfile;
 
-import java.math.BigDecimal;
-
 public class User {
 
-  private BigDecimal id;
+  private Integer id;
   private String title;
   private String name;
 

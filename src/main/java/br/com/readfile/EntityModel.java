@@ -9,7 +9,7 @@ import java.util.Objects;
 
 public final class EntityModel<T> {
 
-  private Class<T> clazz;
+  private final Class<T> clazz;
   private Constructor<T> construtorWithoutParameters;
   private SoftReference<Map<String, Field>> fields;
 
@@ -39,7 +39,13 @@ public final class EntityModel<T> {
     try {
       Field field = getDeclaredField(fieldName);
       field.setAccessible(true);
-      field.set(instance, value);
+
+      Object convertedValue = null;
+      if(Objects.nonNull(value)) {
+        convertedValue = FieldTypeConvert.convert(field.getType(), value);
+      }
+
+      field.set(instance, convertedValue);
     }
     catch (IllegalAccessException e) {
       e.printStackTrace();

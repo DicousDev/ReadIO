@@ -18,8 +18,8 @@ import org.dhatim.fastexcel.reader.Sheet;
 
 public final class ReadFileImp<T> implements ReadFileAbstract {
 
-  private EntityModel<T> entityModel;
-  private WorkMap workMap;
+  private final EntityModel<T> entityModel;
+  private final WorkMap workMap;
 
   public ReadFileImp(Class<T> clazz, WorkMap workMap) {
     entityModel = new EntityModel<T>(clazz);
