@@ -24,14 +24,14 @@ public final class ReadFileImp<T> implements ReadFileAbstract {
   }
 
   @Override
-  public List<T> read(String location) {
+  public List<T> read(String filePath) {
     // Excel
     List<T> instances = new ArrayList<>();
     FileInputStream file = null;
     ReadableWorkbook readableWorkbook = null;
     Stream<Row> rows = null;
     try {
-      file = new FileInputStream(location);
+      file = new FileInputStream(filePath);
       readableWorkbook = new ReadableWorkbook(file);
       Sheet sheet = readableWorkbook.getFirstSheet();
       rows = sheet.openStream();
@@ -61,22 +61,22 @@ public final class ReadFileImp<T> implements ReadFileAbstract {
     }
     catch (FileNotFoundException e) {
       e.printStackTrace();
-      System.err.println("Arquivo Excel não encontrado na pasta resources.");
+      System.err.println("Excel file not found in resources folder.");
     }
     catch (IOException e) {
       e.printStackTrace();
-      System.err.println("Erro ao tentar fazer leitura do arquivo Excel.");
+      System.err.println("Error when trying to read the Excel file.");
     }
     finally {
 
       try {rows.close(); }
-      catch (Exception e) { System.err.println("Erro ao tentar fechar Stream rows [finally]."); }
+      catch (Exception e) { System.err.println("Error trying to close Stream rows [finally]."); }
 
       try { readableWorkbook.close(); }
-      catch (Exception e) { System.err.println("Erro ao tentar fechar ReadableWorkbook [finally]."); }
+      catch (Exception e) { System.err.println("Error trying to close ReadableWorkbook [finally]."); }
 
       try { file.close(); }
-      catch (Exception e) { System.err.println("Erro ao tentar fechar File [finally]."); }
+      catch (Exception e) { System.err.println("Error trying to close File [finally]."); }
     }
 
     return instances;

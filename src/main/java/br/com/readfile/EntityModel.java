@@ -17,15 +17,15 @@ public final class EntityModel<T> {
   public EntityModel(Class<T> clazz) {
 
     if(Objects.isNull(clazz)) {
-      System.err.println("Model nulo");
-      throw new RuntimeException("Model nulo.");
+      System.err.println("Erro null model");
+      throw new RuntimeException("Erro null model");
     }
 
     try {
       construtorWithoutParameters = clazz.getConstructor();
     }
     catch (NoSuchMethodException e) {
-      String erro = String.format("Erro ao tentar obter construtor public da model. Verifique se a model %s possui ao menos um construtor sem parâmetros public", clazz.getSimpleName());
+      String erro = String.format("Error when trying to get model public constructor. Check that the model %s has at least one public parameterless constructor", clazz.getSimpleName());
       System.err.println(erro);
     }
 
@@ -66,7 +66,7 @@ public final class EntityModel<T> {
       return Optional.of(fields.get().get(name));
     }
     else {
-      System.err.println(String.format("Field %s não existe.", name));
+      System.err.println(String.format("Field %s does not exist.", name));
       return Optional.empty();
     }
   }
@@ -82,7 +82,7 @@ public final class EntityModel<T> {
     }
     catch (IllegalAccessException e) {
       e.printStackTrace();
-      System.err.println("Erro ao tentar modificar atributo Field.");
+      System.err.println("Error when trying to modify an attribute value");
     }
   }
 
@@ -93,7 +93,7 @@ public final class EntityModel<T> {
     }
     catch (Exception e) {
       e.printStackTrace();
-      String erro = "Erro ao tentar criar um objeto da model";
+      String erro = "Error when trying to create a model object";
       System.err.println(erro);
       throw new RuntimeException(erro);
     }

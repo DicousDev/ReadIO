@@ -4,5 +4,5 @@ import java.util.List;
 
 public interface ReadFileAbstract<T> {
 
-  List<T> read(String location);
+  List<T> read(String filePath);
 }
