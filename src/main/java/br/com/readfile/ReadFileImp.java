@@ -4,9 +4,12 @@ import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
+import java.util.Optional;
 import java.util.stream.Stream;
 import org.dhatim.fastexcel.reader.Cell;
 import org.dhatim.fastexcel.reader.ReadableWorkbook;
@@ -26,6 +29,11 @@ public final class ReadFileImp<T> implements ReadFileAbstract {
   @Override
   public List<T> read(String filePath) {
     // Excel
+    if(!workMap.constainsElements()) {
+      Log.info("WorkMap has no elements");
+      return Collections.emptyList();
+    }
+
     List<T> instances = new ArrayList<>();
     FileInputStream file = null;
     ReadableWorkbook readableWorkbook = null;
@@ -41,18 +49,35 @@ public final class ReadFileImp<T> implements ReadFileAbstract {
       rows.forEach(row -> {
 
         if(isRowHeader(row)) {
-          for(Cell cell : row) {
-            map.put(cell.getColumnIndex(), cell.getRawValue());
+          for(int i = 0; i < row.getCellCount(); i++) {
+            Log.info("Header");
+            Optional<Cell> cell = row.getOptionalCell(i);
+            if(cell.isEmpty()) {
+              continue;
+            }
+
+            String headerName = cell.get().getValue().toString();
+            if(workMap.constainsHeaderName(headerName)) {
+              map.put(cell.get().getColumnIndex(), headerName);
+            }
           }
         }
         else if(isRowBody(row)) {
           //Double progress = Double.valueOf(row.getRowNum()) / Double.valueOf(rowsBodyTotal);
           Object instance = entityModel.createInstance();
           for(int i = 0; i < row.getCellCount(); i++) {
-            Object value = row.getCell(i).getValue();
+            Log.info("Body");
             String headerColumn = map.get(i);
-            String fieldModelName = workMap.getFieldModelName(headerColumn).orElseGet(null);
-            entityModel.setField(fieldModelName, instance, value);
+            String fieldModelName = workMap.getFieldName(headerColumn);
+            if(Objects.nonNull(fieldModelName)) {
+              Object value = null;
+              Optional<Cell> cell = row.getOptionalCell(i);
+              if(cell.isPresent()) {
+                value = cell.get().getValue();
+              }
+
+              entityModel.setField(fieldModelName, instance, value);
+            }
           }
 
           instances.add((T) instance);

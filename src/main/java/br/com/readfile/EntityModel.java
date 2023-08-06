@@ -6,7 +6,6 @@ import java.lang.reflect.Field;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Objects;
-import java.util.Optional;
 
 public final class EntityModel<T> {
 
@@ -35,52 +34,12 @@ public final class EntityModel<T> {
     loadDeclaredFields();
   }
 
-  private void loadDeclaredFields() {
-    Field[] fields = clazz.getDeclaredFields();
-    Map<String, Field> map = new HashMap<>();
-    for(Field field : fields) {
-      map.put(field.getName(), field);
-    }
-
-    this.fields = new SoftReference<>(map);
-  }
-
-  private boolean isFieldsLoaded() {
-    return fields.get() != null;
-  }
-
-  private boolean existsDeclaredField(String fieldName)  {
-
-    if(!isFieldsLoaded()) {
-      loadDeclaredFields();
-    }
-
-    return fields.get().containsKey(fieldName);
-  }
-
-  private Optional<Field> getDeclaredField(String name) {
-
-    if(!isFieldsLoaded()) {
-      loadDeclaredFields();
-    }
-
-    if(existsDeclaredField(name)) {
-      return Optional.of(fields.get().get(name));
-    }
-    else {
-      Log.error(String.format("Field %s does not exist.", name));
-      return Optional.empty();
-    }
-  }
-
   public void setField(String fieldName, Object instance, Object value)  {
 
     try {
-      Optional<Field> field = getDeclaredField(fieldName);
-      if(field.isPresent()) {
-        field.get().setAccessible(true);
-        field.get().set(instance, value);
-      }
+      Field field = getDeclaredField(fieldName);
+      field.setAccessible(true);
+      field.set(instance, value);
     }
     catch (IllegalAccessException e) {
       e.printStackTrace();
@@ -96,6 +55,55 @@ public final class EntityModel<T> {
     catch (Exception e) {
       e.printStackTrace();
       String erro = "Error when trying to create a model object";
+      Log.error(erro);
+      throw new RuntimeException(erro);
+    }
+  }
+
+  private void loadDeclaredFields() {
+    Field[] fields = clazz.getDeclaredFields();
+    Map<String, Field> map = new HashMap<>();
+    for(Field field : fields) {
+      map.put(field.getName(), field);
+    }
+
+    this.fields = new SoftReference<>(map);
+  }
+
+  private boolean isFieldsLoaded() {
+
+    if(Objects.isNull(fields) || Objects.isNull(fields.get())) {
+      return false;
+    }
+
+    if(fields.get().isEmpty()) {
+      return false;
+    }
+    else {
+      return true;
+    }
+  }
+
+  private boolean existsField(String fieldName)  {
+
+    if(!isFieldsLoaded()) {
+      loadDeclaredFields();
+    }
+
+    return fields.get().containsKey(fieldName);
+  }
+
+  private Field getDeclaredField(String name) {
+
+    if(!isFieldsLoaded()) {
+      loadDeclaredFields();
+    }
+
+    if(existsField(name)) {
+      return fields.get().get(name);
+    }
+    else {
+      String erro = String.format("Field [%s] does not exist in class [%s].", name, clazz.getSimpleName());
       Log.error(erro);
       throw new RuntimeException(erro);
     }
