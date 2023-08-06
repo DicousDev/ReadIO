@@ -1,4 +1,4 @@
-package br.com.readfile;
+package br.com.readfile.abstracts;
 
 import java.io.FileNotFoundException;
 import java.io.IOException;

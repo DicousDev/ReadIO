@@ -1,5 +1,6 @@
-package br.com.readfile;
+package br.com.readfile.abstracts;
 
+import br.com.readfile.entities.RowSheet;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.stream.Stream;

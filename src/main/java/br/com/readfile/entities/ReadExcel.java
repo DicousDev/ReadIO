@@ -1,5 +1,8 @@
-package br.com.readfile;
+package br.com.readfile.entities;
 
+import br.com.readfile.Log;
+import br.com.readfile.abstracts.ReadFile;
+import br.com.readfile.abstracts.ReaderExcel;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.ArrayList;

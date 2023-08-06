@@ -1,4 +1,4 @@
-package br.com.readfile;
+package br.com.readfile.entities;
 
 public class Cell {
 

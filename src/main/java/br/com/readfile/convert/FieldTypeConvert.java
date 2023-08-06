@@ -1,5 +1,11 @@
-package br.com.readfile;
+package br.com.readfile.convert;
 
+import br.com.readfile.Log;
+import br.com.readfile.fields.BigDecimalType;
+import br.com.readfile.fields.BooleanType;
+import br.com.readfile.fields.DoubleType;
+import br.com.readfile.fields.FieldType;
+import br.com.readfile.fields.IntegerType;
 import java.math.BigDecimal;
 import java.util.HashMap;
 import java.util.Map;

@@ -1,4 +1,4 @@
-package br.com.readfile;
+package br.com.readfile.entities;
 
 import java.util.Iterator;
 import java.util.List;

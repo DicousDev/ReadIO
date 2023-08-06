@@ -1,5 +1,7 @@
-package br.com.readfile;
+package br.com.readfile.entities;
 
+import br.com.readfile.Log;
+import br.com.readfile.convert.FieldTypeConvert;
 import java.lang.ref.SoftReference;
 import java.lang.reflect.Constructor;
 import java.lang.reflect.Field;
