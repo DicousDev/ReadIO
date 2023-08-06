@@ -1,5 +1,7 @@
 package br.com.readfile;
 
+import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
@@ -21,29 +23,43 @@ public class ReadExcel<T> implements ReadFile {
   }
 
   @Override
-  public List<T> read(String filePath) {
+  public List<T> read(String filePath) throws FileNotFoundException, IOException {
     if(!workMap.constainsElements()) {
       Log.info("WorkMap has no elements");
       return Collections.emptyList();
     }
 
     List<T> instances = new ArrayList<>();
-    reader.open(filePath);
 
-    Map<Integer, String> headerMap = new HashMap<>();
-    reader.getRowSheet().forEach(row -> {
+    try {
+      reader.open(filePath);
+      Map<Integer, String> headerMap = new HashMap<>();
+      reader.getRowSheet().forEach(row -> {
 
-      if(isRowHeader(row)) {
-        Map<Integer, String> headerMapper = readHeaderRow(row);
-        headerMap.putAll(headerMapper);
-      }
-      else if(isRowBody(row)) {
-        T instance = (T) readBodyRow(row, headerMap);
-        instances.add(instance);
-      }
-    });
+        if(isRowHeader(row)) {
+          Map<Integer, String> headerMapper = readHeaderRow(row);
+          headerMap.putAll(headerMapper);
+        }
+        else if(isRowBody(row)) {
+          T instance = (T) readBodyRow(row, headerMap);
+          instances.add(instance);
+        }
+      });
+    }
+    catch (FileNotFoundException e) {
+      String erro = "Excel file not found.";
+      Log.error(erro);
+      throw new FileNotFoundException(erro);
+    }
+    catch (IOException e) {
+      String erro = "Error when trying to read the Excel file.";
+      Log.error(erro);
+      throw new IOException(erro);
+    }
+    finally {
+      reader.close();
+    }
 
-    reader.close();
     return instances;
   }
 

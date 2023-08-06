@@ -9,40 +9,25 @@ import java.util.stream.Collectors;
 import java.util.stream.Stream;
 import org.dhatim.fastexcel.reader.ReadableWorkbook;
 import org.dhatim.fastexcel.reader.Row;
-import org.dhatim.fastexcel.reader.Sheet;
 
 public final class FastExcelReaderImp implements ReaderExcel {
 
   private FileInputStream file = null;
   private ReadableWorkbook readableWorkbook = null;
   private Stream<Row> rows = null;
-  private Sheet sheet = null;
   private Boolean isOpen = null;
 
   @Override
-  public void open(String filePath) {
+  public void open(String filePath) throws FileNotFoundException, IOException {
 
     if(isOpenValid()) {
       return;
     }
 
-    try {
-      file = new FileInputStream(filePath);
-      readableWorkbook = new ReadableWorkbook(file);
-      Sheet sheet = readableWorkbook.getFirstSheet();
-      rows = sheet.openStream();
-      isOpen = true;
-    }
-    catch (FileNotFoundException e) {
-      isOpen = null;
-      e.printStackTrace();
-      Log.error("Excel file not found in resources folder.");
-    }
-    catch (IOException e) {
-      isOpen = null;
-      e.printStackTrace();
-      Log.error("Error when trying to read the Excel file.");
-    }
+    file = new FileInputStream(filePath);
+    readableWorkbook = new ReadableWorkbook(file);
+    rows = readableWorkbook.getFirstSheet().openStream();
+    isOpen = true;
   }
 
   @Override
@@ -59,10 +44,9 @@ public final class FastExcelReaderImp implements ReaderExcel {
     catch (Exception e) { Log.error("Error trying to close ReadableWorkbook [finally]."); }
 
     try { file.close(); }
-    catch (Exception e) { Log.error("Error trying to close ReadableWorkbook [finally]."); }
+    catch (Exception e) { Log.error("Error trying to close File [finally]."); }
 
     isOpen = null;
-    sheet = null;
     rows = null;
     readableWorkbook = null;
     file = null;
