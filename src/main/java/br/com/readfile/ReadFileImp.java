@@ -61,22 +61,22 @@ public final class ReadFileImp<T> implements ReadFileAbstract {
     }
     catch (FileNotFoundException e) {
       e.printStackTrace();
-      System.err.println("Excel file not found in resources folder.");
+      Log.error("Excel file not found in resources folder.");
     }
     catch (IOException e) {
       e.printStackTrace();
-      System.err.println("Error when trying to read the Excel file.");
+      Log.error("Error when trying to read the Excel file.");
     }
     finally {
 
       try {rows.close(); }
-      catch (Exception e) { System.err.println("Error trying to close Stream rows [finally]."); }
+      catch (Exception e) { Log.error("Error trying to close Stream rows [finally]."); }
 
       try { readableWorkbook.close(); }
-      catch (Exception e) { System.err.println("Error trying to close ReadableWorkbook [finally]."); }
+      catch (Exception e) { Log.error("Error trying to close ReadableWorkbook [finally]."); }
 
       try { file.close(); }
-      catch (Exception e) { System.err.println("Error trying to close File [finally]."); }
+      catch (Exception e) { Log.error("Error trying to close ReadableWorkbook [finally]."); }
     }
 
     return instances;
