@@ -4,22 +4,27 @@ import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.List;
+import java.util.Objects;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 import org.dhatim.fastexcel.reader.ReadableWorkbook;
 import org.dhatim.fastexcel.reader.Row;
 import org.dhatim.fastexcel.reader.Sheet;
 
-public final class FastExcelReaderImp implements ReadExcelAbstract {
+public final class FastExcelReaderImp implements ReaderExcel {
 
   private FileInputStream file = null;
   private ReadableWorkbook readableWorkbook = null;
   private Stream<Row> rows = null;
   private Sheet sheet = null;
-  private Boolean isOpen = false;
+  private Boolean isOpen = null;
 
   @Override
   public void open(String filePath) {
+
+    if(isOpenValid()) {
+      return;
+    }
 
     try {
       file = new FileInputStream(filePath);
@@ -29,12 +34,12 @@ public final class FastExcelReaderImp implements ReadExcelAbstract {
       isOpen = true;
     }
     catch (FileNotFoundException e) {
-      isOpen = false;
+      isOpen = null;
       e.printStackTrace();
       Log.error("Excel file not found in resources folder.");
     }
     catch (IOException e) {
-      isOpen = false;
+      isOpen = null;
       e.printStackTrace();
       Log.error("Error when trying to read the Excel file.");
     }
@@ -42,6 +47,10 @@ public final class FastExcelReaderImp implements ReadExcelAbstract {
 
   @Override
   public void close() {
+
+    if(isCloseValid()) {
+      return;
+    }
 
     try {rows.close(); }
     catch (Exception e) { Log.error("Error trying to close Stream rows [finally]."); }
@@ -60,8 +69,16 @@ public final class FastExcelReaderImp implements ReadExcelAbstract {
   }
 
   @Override
-  public List<RowSheet> getRowSheet() {
-    return rows.map(row -> convertRow(row)).collect(Collectors.toList());
+  public Stream<RowSheet> getRowSheet() {
+    return rows.map(row -> convertRow(row)).collect(Collectors.toList()).stream();
+  }
+
+  private boolean isOpenValid() {
+    return Objects.nonNull(isOpen) && isOpen.equals(true);
+  }
+
+  private boolean isCloseValid() {
+    return Objects.isNull(isOpen) || isOpen.equals(false);
   }
 
   private RowSheet convertRow(Row row) {
