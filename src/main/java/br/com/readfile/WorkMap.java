@@ -8,8 +8,8 @@ public class WorkMap {
 
   private Map<String, String> workMap = new HashMap<>();
 
-  public void put(String headerName, String attributeNameModel) {
-    workMap.put(headerName, attributeNameModel);
+  public void put(String headerName, String attributeName) {
+    workMap.put(headerName, attributeName);
   }
 
   public Optional<String> getFieldModelName(String headerName) {
