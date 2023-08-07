@@ -109,10 +109,10 @@ public class ReadExcel<T> implements ReadFile {
   }
 
   protected boolean isRowHeader(RowSheet row) {
-    return row.getRowNumber() == 0;
+    return reader.isFirstRow(row.getRowNumber());
   }
 
   protected boolean isRowBody(RowSheet row) {
-    return row.getRowNumber() > 0;
+    return !reader.isFirstRow(row.getRowNumber());
   }
 }

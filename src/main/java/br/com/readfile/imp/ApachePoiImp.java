@@ -49,6 +49,11 @@ public final class ApachePoiImp implements ReaderExcel {
   }
 
   @Override
+  public boolean isFirstRow(int rowNumber) {
+    return rowNumber == 0;
+  }
+
+  @Override
   public Stream<RowSheet> getRowSheet() {
     List<RowSheet> rows = new ArrayList<>();
     for(Row row : sheet) {

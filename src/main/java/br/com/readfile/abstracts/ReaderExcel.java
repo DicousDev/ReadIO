@@ -10,4 +10,5 @@ public interface ReaderExcel {
   void open(String filePath) throws FileNotFoundException, IOException;
   Stream<RowSheet> getRowSheet();
   void close();
+  boolean isFirstRow(int rowNumber);
 }

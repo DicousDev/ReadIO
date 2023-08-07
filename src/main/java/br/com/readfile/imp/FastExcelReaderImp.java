@@ -62,6 +62,11 @@ public final class FastExcelReaderImp implements ReaderExcel {
     return rows.map(row -> convertRow(row)).collect(Collectors.toList()).stream();
   }
 
+  @Override
+  public boolean isFirstRow(int row) {
+    return row == 1;
+  }
+
   private boolean isOpenValid() {
     return Objects.nonNull(isOpen) && isOpen.equals(true);
   }
@@ -71,7 +76,7 @@ public final class FastExcelReaderImp implements ReaderExcel {
   }
 
   private RowSheet convertRow(Row row) {
-    return new RowSheet(row.getRowNum() - 1, convertCells(row));
+    return new RowSheet(row.getRowNum(), convertCells(row));
   }
 
   private List<Cell> convertCells(Row row) {
