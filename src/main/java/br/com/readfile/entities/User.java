@@ -2,7 +2,7 @@ package br.com.readfile.entities;
 
 public class User {
 
-  private Integer id;
+  private long id;
   private String title;
   private String name;
 

@@ -21,6 +21,7 @@ public final class FieldTypeConvert {
     put(String.class, new FieldType());
     put(Long.class, new LongType());
     put(int.class, new IntegerType());
+    put(long.class, new LongType());
     put(double.class, new DoubleType());
     put(boolean.class, new BooleanType());
   }};
