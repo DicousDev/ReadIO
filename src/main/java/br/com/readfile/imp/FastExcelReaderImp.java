@@ -48,7 +48,7 @@ public final class FastExcelReaderImp implements ReaderExcel {
       return;
     }
 
-    try {rows.close(); }
+    try { rows.close(); }
     catch (Exception e) { Log.error("Error trying to close Stream rows."); }
 
     try { readableWorkbook.close(); }

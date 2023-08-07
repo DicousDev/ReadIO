@@ -80,16 +80,11 @@ public final class EntityModel<T> {
 
   private boolean isFieldsLoaded() {
 
-    if(Objects.isNull(fields) || Objects.isNull(fields.get())) {
+    if(Objects.isNull(fields) || Objects.isNull(fields.get()) || fields.get().isEmpty()) {
       return false;
     }
 
-    if(fields.get().isEmpty()) {
-      return false;
-    }
-    else {
-      return true;
-    }
+    return true;
   }
 
   private boolean existsField(String fieldName)  {
