@@ -91,6 +91,13 @@ public final class ApachePoiImp implements ReaderExcel {
   }
 
   private Sheet getFirstSheet(Workbook workbook) {
+
+    if(Objects.isNull(workbook)) {
+      String erro = "Workbook is null.";
+      Log.info(erro);
+      throw new RuntimeException(erro);
+    }
+
     return workbook.getSheetAt(0);
   }
 }
