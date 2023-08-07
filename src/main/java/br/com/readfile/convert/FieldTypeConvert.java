@@ -20,6 +20,9 @@ public final class FieldTypeConvert {
     put(Boolean.class, new BooleanType());
     put(String.class, new FieldType());
     put(Long.class, new LongType());
+    put(int.class, new IntegerType());
+    put(double.class, new DoubleType());
+    put(boolean.class, new BooleanType());
   }};
 
   public static Object convert(Class<?> fieldType, Object value) {
