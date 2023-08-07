@@ -1,1 +1,17 @@
+br\com\readfile\entities\WorkMap.class
+br\com\readfile\entities\ReadExcel.class
+br\com\readfile\fields\IntegerType.class
+br\com\readfile\fields\BigDecimalType.class
+br\com\readfile\convert\FieldTypeConvert.class
+br\com\readfile\fields\FieldType.class
+br\com\readfile\abstracts\ReaderExcel.class
+br\com\readfile\entities\RowSheet.class
+br\com\readfile\entities\User.class
+br\com\readfile\imp\FastExcelReaderImp.class
+br\com\readfile\convert\FieldTypeConvert$1.class
 br\com\readfile\Main.class
+br\com\readfile\entities\EntityModel.class
+br\com\readfile\entities\Cell.class
+br\com\readfile\fields\BooleanType.class
+br\com\readfile\fields\DoubleType.class
+br\com\readfile\abstracts\ReadFile.class

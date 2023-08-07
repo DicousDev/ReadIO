@@ -7,6 +7,7 @@ import br.com.readfile.abstracts.ReaderExcel;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 import java.util.stream.Collectors;
@@ -42,13 +43,13 @@ public final class FastExcelReaderImp implements ReaderExcel {
     }
 
     try {rows.close(); }
-    catch (Exception e) { Log.error("Error trying to close Stream rows [finally]."); }
+    catch (Exception e) { Log.error("Error trying to close Stream rows."); }
 
     try { readableWorkbook.close(); }
-    catch (Exception e) { Log.error("Error trying to close ReadableWorkbook [finally]."); }
+    catch (Exception e) { Log.error("Error trying to close ReadableWorkbook."); }
 
     try { file.close(); }
-    catch (Exception e) { Log.error("Error trying to close File [finally]."); }
+    catch (Exception e) { Log.error("Error trying to close File."); }
 
     isOpen = null;
     rows = null;
@@ -70,12 +71,21 @@ public final class FastExcelReaderImp implements ReaderExcel {
   }
 
   private RowSheet convertRow(Row row) {
-    return new RowSheet(row.getRowNum(), convertCells(row));
+    return new RowSheet(row.getRowNum() - 1, convertCells(row));
   }
 
   private List<Cell> convertCells(Row row) {
-    return row.getCells(0, row.getCellCount()).stream()
-      .map(cell -> new Cell(cell.getValue(), cell.getColumnIndex()))
-      .collect(Collectors.toList());
+    List<org.dhatim.fastexcel.reader.Cell> cells = row.getCells(0, row.getCellCount());
+    List<Cell> cellsConverted = new ArrayList<>();
+    for(org.dhatim.fastexcel.reader.Cell cell : cells) {
+      Cell cellConvert = null;
+      if(Objects.nonNull(cell)) {
+        cellConvert = new Cell(cell.getValue(), cell.getColumnIndex());
+      }
+
+      cellsConverted.add(cellConvert);
+    }
+
+    return cellsConverted;
   }
 }
