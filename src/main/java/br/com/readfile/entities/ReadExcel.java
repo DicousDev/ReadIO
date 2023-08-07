@@ -20,6 +20,13 @@ public class ReadExcel<T> implements ReadFile {
   private ReaderExcel reader;
 
   public ReadExcel(Class<T> clazz, WorkMap workMap, ReaderExcel reader) {
+
+    if(Objects.isNull(clazz) || Objects.isNull(workMap) || Objects.isNull(reader)) {
+      String erro = "null parameter";
+      Log.error(erro);
+      throw new RuntimeException(erro);
+    }
+
     entityModel = new EntityModel<T>(clazz);
     this.workMap = workMap;
     this.reader = reader;

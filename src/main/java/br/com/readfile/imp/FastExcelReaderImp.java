@@ -25,6 +25,12 @@ public final class FastExcelReaderImp implements ReaderExcel {
   @Override
   public void open(String filePath) throws FileNotFoundException, IOException {
 
+    if(Objects.isNull(filePath)) {
+      String erro = "file path is null.";
+      Log.error(erro);
+      throw new RuntimeException(erro);
+    }
+
     if(isOpenValid()) {
       return;
     }
