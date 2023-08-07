@@ -6,6 +6,7 @@ import br.com.readfile.fields.BooleanType;
 import br.com.readfile.fields.DoubleType;
 import br.com.readfile.fields.FieldType;
 import br.com.readfile.fields.IntegerType;
+import br.com.readfile.fields.LongType;
 import java.math.BigDecimal;
 import java.util.HashMap;
 import java.util.Map;
@@ -18,6 +19,7 @@ public final class FieldTypeConvert {
     put(Double.class, new DoubleType());
     put(Boolean.class, new BooleanType());
     put(String.class, new FieldType());
+    put(Long.class, new LongType());
   }};
 
   public static Object convert(Class<?> fieldType, Object value) {
