@@ -24,12 +24,13 @@ public final class EntityModel<T> {
     }
 
     try {
-      construtorWithoutParameters = clazz.getConstructor();
+      construtorWithoutParameters = clazz.getDeclaredConstructor();
+      construtorWithoutParameters.setAccessible(true);
     }
     catch (NoSuchMethodException e) {
-      String erro = String.format("Error when trying to get model public constructor. Check that the model %s has at least one public parameterless constructor", clazz.getSimpleName());
+      String erro = String.format("Error when trying to get empty constructor from class [%s].", clazz.getSimpleName());
       Log.error(erro);
-      System.err.println(erro);
+      throw new RuntimeException(erro);
     }
 
     this.clazz = clazz;

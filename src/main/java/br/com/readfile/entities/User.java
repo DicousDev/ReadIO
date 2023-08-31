@@ -6,6 +6,10 @@ public class User {
   private String title;
   private String name;
 
+  private User() {
+
+  }
+
   public void show() {
     StringBuilder s = new StringBuilder("id: ");
     s.append(id);
