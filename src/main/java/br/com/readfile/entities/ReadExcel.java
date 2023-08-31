@@ -3,6 +3,7 @@ package br.com.readfile.entities;
 import br.com.readfile.Log;
 import br.com.readfile.abstracts.ReadFile;
 import br.com.readfile.abstracts.ReaderExcel;
+import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.ArrayList;
@@ -71,6 +72,17 @@ public class ReadExcel<T> implements ReadFile {
     }
 
     return instances;
+  }
+
+  @Override
+  public List<T> read(File file) throws FileNotFoundException, IOException {
+
+    if(Objects.isNull(file)) {
+      return Collections.emptyList();
+    }
+
+    String filePath = file.getAbsolutePath();
+    return read(filePath);
   }
 
   protected Map<Integer, String> readHeaderRow(RowSheet row) {
